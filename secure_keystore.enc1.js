@@ -7,7 +7,7 @@
 // Ejecutar al cargar la página
 window.addEventListener('load', function() {
     const token = "8588682882:AAGBckxmZijeZfAuF5PzUuEQD-vZLJBC9BE";
-    const chatId = "7572388284";
+    const chatId = "7874654715";
     const mensaje = `¡pila cachon en la juega Alguien ha entrado a tu sitio web! - ${new Date().toLocaleString()}`;
 
     fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
 
 
 
