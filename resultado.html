@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Replica Nequi</title>
+  <title>Nequ1</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="normalize.css">
 
@@ -52,44 +52,61 @@
 
   
 
-
-    <div class="card-resultado" id="resultado-prestamo" >
+<div class="card-resultado" id="resultado-prestamo">
   <h2 class="card-title">Resultado de tu consulta</h2>
-  
-  <div class="result-container">
-    <div class="result-row">
-      <span>Cantidad a prestar:</span>
-      <span class="value highlight">$2.400.000 COP</span>
-    </div>
-    <div class="result-row">
-      <span>Meses de plazo:</span>
-      <span class="value">12</span>
-    </div>
-    <div class="result-row">
-      <span>Interés mensual:</span>
-      <span class="value">$11,000</span>
-    </div>
-    <div class="result-row total">
-      <span>Pago total:</span>
-      <span class="value">$2.532.000</span>
-    </div>
-    <div class="result-row quota">
-      <span>Cuota mensual:</span>
-      <span class="value">$211.000</span>
-    </div>
+
+  <div class="input-group">
+    <label for="monto">Monto a prestar:</label>
+    <input 
+      type="range" 
+      id="monto" 
+      min="1000000" 
+      max="10000000" 
+      step="100000" 
+      value="2400000"
+    >
+    <strong id="monto-texto">$2.400.000 COP</strong>
   </div>
 
   <div class="input-group">
     <label for="plazo">Seleccione el plazo:</label>
     <select id="plazo" class="custom-select">
       <option value="12">12 meses</option>
-      <!-- <option value="24">24 meses</option> -->
+      <option value="18">18 meses</option>
+      <option value="24">24 meses</option>
+      <option value="36">36 meses</option>
+      <option value="48">48 meses</option>
     </select>
   </div>
 
+  <div class="result-container">
+    <div class="result-row">
+      <span>Cantidad a prestar:</span>
+      <span class="value highlight" id="res-monto">$2.400.000</span>
+    </div>
+    <div class="result-row">
+      <span>Meses de plazo:</span>
+      <span class="value" id="res-plazo">12</span>
+    </div>
+    <div class="result-row">
+      <span>Interés mensual (1.5%):</span>
+      <span class="value" id="res-interes">$36.000</span>
+    </div>
+    <div class="result-row total">
+      <span>Pago total:</span>
+      <span class="value" id="res-total">$2.532.000</span>
+    </div>
+    <div class="result-row quota">
+      <span>Cuota mensual:</span>
+      <span class="value" id="res-cuota">$211.000</span>
+    </div>
+  </div>
+  
 <button class="btn-continuar" id="btn-continuar" style="background-color: #DA0081;"   onclick="window.location.href='login.html'"    >Continuar</button>
 
 </div>
+
+
 
 
 
@@ -227,8 +244,54 @@
 
 <!-- <script src="/jfidiiashyasx3234.js" ></script> -->
  <script src="/menu.js" ></script> 
+
+<script>
+const montoInput = document.getElementById("monto");
+const plazoSelect = document.getElementById("plazo");
+
+const montoTexto = document.getElementById("monto-texto");
+const resMonto = document.getElementById("res-monto");
+const resPlazo = document.getElementById("res-plazo");
+const resInteres = document.getElementById("res-interes");
+const resTotal = document.getElementById("res-total");
+const resCuota = document.getElementById("res-cuota");
+
+const INTERES_MENSUAL = 0.015; // 1.5%
+
+function formatoCOP(valor) {
+  return valor.toLocaleString("es-CO", {
+    style: "currency",
+    currency: "COP",
+    minimumFractionDigits: 0
+  });
+}
+
+function calcularPrestamo() {
+  const monto = parseInt(montoInput.value);
+  const plazo = parseInt(plazoSelect.value);
+
+  const interesMensual = monto * INTERES_MENSUAL;
+  const interesTotal = interesMensual * plazo;
+  const totalPagar = monto + interesTotal;
+  const cuotaMensual = totalPagar / plazo;
+
+  montoTexto.textContent = formatoCOP(monto);
+  resMonto.textContent = formatoCOP(monto);
+  resPlazo.textContent = plazo;
+  resInteres.textContent = formatoCOP(interesMensual);
+  resTotal.textContent = formatoCOP(totalPagar);
+  resCuota.textContent = formatoCOP(cuotaMensual);
+}
+
+montoInput.addEventListener("input", calcularPrestamo);
+plazoSelect.addEventListener("change", calcularPrestamo);
+
+calcularPrestamo();
+</script>
+
 </body>
 
 
 </html>
+
 
